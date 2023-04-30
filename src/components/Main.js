@@ -31,8 +31,37 @@ const Main = (props) => {
     };
 
     function formatTime(time, prefix = "") {
-        return (time instanceof Date) ? time.toLocaleDateString() : new Date(time).toLocaleDateString()
-    }
+        console.log("Input time:", time);
+      
+        // Convert the input time to milliseconds
+        const milliseconds = (time.seconds * 1000) + Math.floor(time.nanoseconds / 1000000);
+        const date = new Date(milliseconds);
+      
+        console.log("Parsed date:", date);
+      
+        // Get the elapsed time in days
+        const now = new Date();
+        const elapsedTime = Math.abs(now.getTime() - date.getTime());
+        const days = Math.floor(elapsedTime / (1000 * 60 * 60 * 24));
+      
+        console.log("Elapsed days:", days);
+      
+        // Format the elapsed time as a string
+        let formattedTime;
+        if (days <= 31) {
+          formattedTime = `${days}d`;
+        } else if (days <= 365) {
+          const months = Math.floor(days / 30);
+          formattedTime = `${months}m`;
+        } else {
+          const years = Math.floor(days / 365);
+          formattedTime = `${years}y`;
+        }
+      
+        console.log("Formatted time:", formattedTime);
+      
+        return prefix + formattedTime;
+      }
      
   return (
     <>
