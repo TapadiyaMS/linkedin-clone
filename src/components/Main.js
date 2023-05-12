@@ -30,38 +30,15 @@ const Main = (props) => {
         }
     };
 
-    function formatTime(time, prefix = "") {
-        console.log("Input time:", time);
+    const users = [
+        { name: 'User 1', dist: "2.5" },
+        { name: 'User 2', dist: 32 },
+        { name: 'User 3', dist: 19 },
+        { name: 'User 4', dist: 40 },
+        { name: 'User 5', dist: 28 },
+        { name: 'User 6', dist: 22 },
+      ];
       
-        // Convert the input time to milliseconds
-        const milliseconds = (time.seconds * 1000) + Math.floor(time.nanoseconds / 1000000);
-        const date = new Date(milliseconds);
-      
-        console.log("Parsed date:", date);
-      
-        // Get the elapsed time in days
-        const now = new Date();
-        const elapsedTime = Math.abs(now.getTime() - date.getTime());
-        const days = Math.floor(elapsedTime / (1000 * 60 * 60 * 24));
-      
-        console.log("Elapsed days:", days);
-      
-        // Format the elapsed time as a string
-        let formattedTime;
-        if (days <= 31) {
-          formattedTime = `${days}d`;
-        } else if (days <= 365) {
-          const months = Math.floor(days / 30);
-          formattedTime = `${months}m`;
-        } else {
-          const years = Math.floor(days / 365);
-          formattedTime = `${years}y`;
-        }
-      
-        console.log("Formatted time:", formattedTime);
-      
-        return prefix + formattedTime;
-      }
      
   return (
     <>
@@ -70,106 +47,18 @@ const Main = (props) => {
         (<p> There are no articles </p>
         ):(
         <Container>
-            <ShareBox>
-            <div>
-                { props.user && props.user.photoURL ? (
-                    <img src = {props.user.photoURL} /> 
-                ) : (
-                    <img src="/images/user.svg" />
-                )}
-                    <button 
-                        onClick={handleClick}
-                        disabled={ props.loading ? true : false }> Start a post</button>
-                </div>
-                <div>
-                    <button>
-                        <img src="/images/photo-icon.svg" />
-                        <span>Photo</span>
-                    </button>
-            
-                    <button>
-                        <img src="/images/video-icon.svg" />
-                        <span>Video</span>
-                    </button>
-
-                    <button>
-                        <img src="/images/event-icon.svg" />
-                        <span>Event</span>
-                    </button>
-
-                    <button>
-                        <img src="/images/article-icon.svg" />
-                        <span>Write article</span>
-                    </button>
-                </div> 
-            </ShareBox>
-            <Content>
-                { props.loading && <img src = './images/spinning-circles.svg' /> }
-                {console.log(props.articles)}
-
-                { props.articles.length > 0 && props.articles.map((article, key) => (
-                    <div>
-                        <Article key={key}>
-                            <SharedActor>
-                                <a>
-                                    <img src={article.actor.image} />
-                                    <div>
-                                        <span>{article.actor.title}</span>
-                                        <span>{article.actor.description}</span>
-                                        <span>{formatTime(article.actor.date)}</span>
-                                    </div>
-                                </a>
-                                <button>
-                                    <img src="/images/ellipsis.svg" />
-                                </button>
-                            </SharedActor>
-                            <Description>{article.description}</Description>
-                            <SharedImg>
-                                <a>
-                                    {!article.sharedImg && article.video ? 
-                                    (<ReactPlayer width={'100%'} url={article.video} />
-                                   ) : (
-                                    article.sharedImg && <img src={article.sharedImg} />
-                                    )}
-                                </a>
-                            </SharedImg>
-                            <SocialCounts>
-                                <li>
-                                    <button>
-                                        <img src="/images/like-icon.svg" />
-                                        <img src="/images/support-icon.svg" />
-                                        {/* <img src="/images/love-icon.svg" />
-                                        <img src="/images/celebrate-clap-icon.svg" />
-                                        <img src="/images/insiteful-bulb-icon.svg" /> */}
-                                        <span>75</span>
-                                    </button>
-                                </li>
-                                <li>
-                                    <a>{article.comments}</a>
-                                </li>
-                            </SocialCounts>
-                            <SocialActions>
-                                <button>
-                                    <img src="/images/like-thumbsup-icon.svg" />
-                                    <span>Like</span>
-                                </button>
-                                <button>
-                                    <img src="/images/comments-icon.svg" />
-                                    <span>Comments</span>
-                                </button>
-                                <button>
-                                    <img src="/images/repost-icon.svg" />
-                                    <span>Repost</span>
-                                </button>
-                                <button>
-                                    <img src="/images/share-icon.svg" />
-                                    <span>Send</span>
-                                </button>
-                            </SocialActions>
-                        </Article>
-                    </div>
-                ))}
-            </Content>
+            <Layout>
+                <BlockContainer>
+                    {users.map(user => (
+                        <Block key={user}>
+                            <Photo user={user} />
+                            <Dot />
+                            <Name>{user.name}</Name>
+                            <Distance>{user.dist}</Distance>
+                        </Block>
+                    ))}
+                </BlockContainer>
+            </Layout>
             <PostModal showModal={showModal} handleClick={handleClick} />
         </Container>
         )}
@@ -181,217 +70,81 @@ const Container = styled.div`
   grid-area: main;
 `;
 
-const CommonCard = styled.div`
+const Layout = styled.div`
     text-align: center;
-    overflow: hidden;
-    margin-bottom: 8px;
-    background-color: #fff;
-    border-radius: 5px;
-    position: relative;
-    border: none;
-    box-shadow: 0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%);
-`;
 
-const ShareBox = styled(CommonCard)`
     display: flex;
     flex-direction: column;
-    color: #958b7b;
-    margin: 0 0 8px;
-    background: white;
-    div {
-        button {
-            outline: none;
-            color: rgba(0, 0, 0, 0.6);
-            font-size: 14px;
-            line-height: 1.5;
-            min-height: 48px;
-            background: transparent;
-            border: none;
-            display: flex;
-            align-items: center;
-            font-weight: 600;
-        }
-        &:first-child {
-            display: flex;
-            align-items: center;
-            padding: 8px 16px 0px 16px;
-            img {
-                width: 48px;
-                border-radius: 50%;
-                margin-right: 8px;
-            }
-            button {
-                margin: 4px 0;
-                flex-grow: 1;
-                padding-left: 16px;
-                border: 1px solid rgba(0, 0, 0, 0.15);
-                border-radius: 35px;
-                background-color: white;
-                text-align: left;
-            }
-        }
-        &:nth-child(2) {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            padding-bottom: 4px;
-            
-            button {
-                img {
-                    margin: 0 4px 0 -2px;
-                    width: 30px;
-                }
-                span {
-                    color: #7055f9;
-                }
-            }
-        }   
-    }
-`;
-
-const Article = styled(CommonCard)`
-    padding: 0;
-    margin: 0 0 8px;
-    overflow: visible;
-`;
-
-const SharedActor = styled.div`
-    padding-right: 40px;
-    flex-wrap: nowrap;
-    padding: 12px 16px 0;
-    margin-bottom: 8px;
-    align-items: center;
-    display: flex;
-    a {
-        margin-right: 2px;
-        flex-grow: 1;
-        overflow: hidden;
-        display: flex;
-        text-decoration: none;
-    }
-
-    img {
-        width: 48px;
-        height: 48px;
-    }
-
-    div {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-        flex-basis: 0;
-        margin-left: 8px;
-        overflow: hidden;
-        span {
-            text-align: left;
-            &:first-child {
-                font-size: 14px;
-                font-weight: 500;
-                color: rgba(0, 0, 0, 1);
-            }
-            &:nth-child(n + 2) {
-                font-size: 12px;
-                color: rgba(0, 0, 0, 0.6);
-            }
-        }
-    }
-
-    button{
-        position: absolute;
-        right: 12px;
-        top: 0;
-        background: transparent;
-        border: none;
-        outline: none;
-        img {
-            width: 35px;
-            height: 35px;
-        }
-    }
-`;
-
-const Description = styled.div`
-    padding: 0 16px;
-    overflow: hidden;
-    color: rgba(0, 0, 0, 0.9);
-    font-size: 14px;
-    text-align: left;
-`;
-
-const SharedImg = styled.div`
-    margin-top: 8px;
-    width: 100%;
-    display: block;
+    // background-color: #6c757d;
     position: relative;
-    background-color: #f9fafb;
-    img {
-        object-fit: contain;
-        width: 100%;
-        height: 100%;
-    }
+    padding: 10px;
 `;
 
-const SocialCounts = styled.div`
-    line-height: 1.3;
-    display: flex;
-    align-items: flex-start;
-    overflow: auto;
-    margin: 0 16px;
-    padding: 8px 0;
-    border-bottom: 1px solid #e9e5df;
-    list-style: none;
-    li {
-        margin-right: 5px;
-        font-size: 12px;
-        button {
-            display: flex;
-            background-color: white;
-            border: none;
-            img {
-                width: 20px;
-                height: 18px;
-            }
-        }
-    }
+const BlockContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 40px;
+
+  & > * {
+    border: 1px solid black;
+  }
 `;
 
-const SocialActions = styled.div`
-    /* to stretch and use whole defined width of a box */
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-
-    align-items: center;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-    min-height: 40px;
-    padding: 4px 8px;   
-    img {
-        height: 20px;
-        width: 20px;
-    }
-    button {
-        display: inline-flex;
-        align-items: center;
-        padding: 8px;
-        color: #0a66c2;
-        border: none;
-        background-color: white;
-
-        @media (min-width: 768px) {
-            span{
-                margin-left: 8px;
-            }
-        }
-    }
+const Block = styled.div`
+  position: relative;
+  width: 200px;
+  height: 200px;
+  background-color: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid white;
+  background-color: #495057;
 `;
 
-const Content = styled.div`
-    text-align: center;
-    & > img {
-        width: 30px;
-    }
+const Photo = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+//   background-image: ${props => props.user && props.user.photoURL ? `url(${props.user.photoURL})` : `url("/images/photo-icon.svg")`};
+  background-clip: content-box;
+//   background-color: white;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+`;
+
+const Dot = styled.div`
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: 16px;
+  height: 16px;
+  background-color: rgba(0, 128, 0, 0.7);;
+  border-radius: 50%;
+`;
+
+const Name = styled.p`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 8px;
+//   background-color: rgba(0, 128, 0, 0.7);
+  color: white;
+  margin: 0;
+  width: 100%;
+`;
+
+const Distance = styled.p`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 8px;
+//   background-color: rgba(0, 128, 0, 0.7);
+  color: white;
+  margin: 0;
 `;
 
 const mapStateToProps = (state) => {    

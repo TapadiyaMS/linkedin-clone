@@ -12,14 +12,14 @@ const Header = (props) => {
             <img src="/images/home-logo.svg" alt="" />
           </a>
         </Logo>
-        <Search>
+        <Explore>
           <div>
-            <input type="text" placeholder="Search" />
+            <input type="text" placeholder="Explore" />
           </div>
-          <SearchIcon>
+          <ExploreIcon>
             <img src="/images/search-icon.svg" alt="" />
-          </SearchIcon>
-        </Search>
+          </ExploreIcon>
+        </Explore>
         <Nav>
           <NavListWrap>
             <NavList className="active">
@@ -31,29 +31,8 @@ const Header = (props) => {
 
             <NavList>
               <a>
-                <img src="/images/nav-network.svg" alt="" />
-                <span>My Network</span>
-              </a>
-            </NavList>
-
-            <NavList>
-              <a>
-                <img src="/images/nav-jobs.svg" alt="" />
-                <span>Jobs</span>
-              </a>
-            </NavList>
-
-            <NavList>
-              <a>
                 <img src="/images/nav-messaging.svg" alt="" />
-                <span>Messaging</span>
-              </a>
-            </NavList>
-
-            <NavList>
-              <a>
-                <img src="/images/nav-notifications.svg" alt="" />
-                <span>Notifications</span>
+                <span>Random Chat</span>
               </a>
             </NavList>
 
@@ -75,15 +54,6 @@ const Header = (props) => {
               </SignOut>
             </User>
 
-            <Tools>
-              <a>
-                <img src="/images/nav-work.svg" alt="" />
-                <span>
-                  Tools
-                  <img src="/images/down-icon.svg" alt="" />
-                </span>
-              </a>
-            </Tools>
           </NavListWrap>
         </Nav>
       </Content>
@@ -115,7 +85,7 @@ const Logo = styled.span`
   font-size: 0px;
 `;
 
-const Search = styled.div`
+const Explore = styled.div`
   opacity: 1;
   flex-grow: 1;
   position: relative;
@@ -139,7 +109,7 @@ const Search = styled.div`
   }
 `;
 
-const SearchIcon = styled.div`
+const ExploreIcon = styled.div`
   width: 40px;
   position: absolute;
   z-index: 1;
@@ -271,10 +241,6 @@ display: flex;
       justify-content: center;
     }
   }
-`;
-
-const Tools = styled(User)`
-  border-left: 1px solid rgba(0, 0, 0, 0.08);
 `;
 
 const mapStateToProps = (state) => {    

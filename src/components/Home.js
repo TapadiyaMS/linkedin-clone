@@ -9,14 +9,6 @@ const Home = (props) => {
   return (
     <Container>
       {props.user && <Redirect to="/" />}
-      <Section>
-        <h5>
-          <a>Hiring in a hurry? - </a>
-        </h5>
-        <p>
-            Find talented pros in record time with Upwork and keep business moving.
-        </p>
-      </Section>
       <Layout>
         <Leftside />
         <Main />
@@ -68,7 +60,7 @@ const Section = styled.section`
 const Layout = styled.div`
   display: grid;
   grid-template-areas: "leftspace leftside main rightside rightspace";
-  grid-template-columns: minmax(0, 2fr) minmax(0, 5fr) minmax(0, 12fr) minmax(300px, 7fr) minmax(0, 2fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 5fr) minmax(0, 12fr) minmax(0, 6fr) minmax(0, 1fr);
   column-gap: 25px;
   row-gap: 25px;
   /* grid-template-row: auto; */

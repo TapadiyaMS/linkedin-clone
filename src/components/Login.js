@@ -12,14 +12,14 @@ const Login = (props) => {
           <img src="/images/login-logo.svg" alt="" />
         </a>
         <div>
-          <Join>Join now</Join>
-          <SignIn>Sign in</SignIn>
+          <Join href="/signup"> Join now </Join> 
+          <SignIn href="./SignIn">Sign in</SignIn> 
         </div>
       </Nav>
       <Section>
         <Hero>
-          <h1>Welcome to your professional community</h1>
-          <img src="/images/login-hero.svg" alt="" />
+          <h1>Find Your Next Playmate with Peekaboo</h1>
+          <img src="/images/login-hero.jpg" alt="" />
         </Hero>
         <Form>
           <Google onClick={() => props.signIn()}>
@@ -79,6 +79,7 @@ const SignIn = styled.a`
   padding: 10px 24px;
   text-align: center;
   background-color: rgba(0, 0, 0, 0);
+  text-decoration: none; // no underline
   &:hover {
     background-color: rgba(112, 181, 249, 0.15);
     color: #0a66c2;
@@ -128,6 +129,7 @@ const Hero = styled.div`
     position: absolute;
     bottom: -2px;
     right: -150px;
+    border-radius: 50%;
     @media (max-width: 768px) {
       top: 230px;
       width: initial;
