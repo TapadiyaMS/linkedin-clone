@@ -69,10 +69,8 @@ export function postArticleAPI(payload) {
                 actor: {
                     description: payload.user.email,
                     title: payload.user.displayName,
-                    date: payload.user.timestamp,
+                    date: payload.timestamp,
                     image: payload.user.photoURL,
-                    location: payload.location,
-                    usrlocation: payload.user.location,
                 },
                 video: payload.video,
                 sharedImg: downloadURL,
@@ -88,10 +86,8 @@ export function postArticleAPI(payload) {
             actor: {
                 description: payload.user.email,
                 title: payload.user.displayName,
-                date: payload.user.timestamp,
+                date: payload.timestamp,
                 image: payload.user.photoURL,
-                location: payload.location,
-                usrlocation: payload.user.location,
             },
             video: payload.video,
             sharedImg: '',
